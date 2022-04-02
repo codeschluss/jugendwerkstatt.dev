@@ -15,6 +15,7 @@ services:
   server:
     container_name: jugendwerkstatt.server
     image: maven:3-openjdk-17-slim
+    user: $UID:$GID
     command: mvn clean spring-boot:run -DexcludeDevtools=false
     networks: [default]
     ports: [8061:8080]
