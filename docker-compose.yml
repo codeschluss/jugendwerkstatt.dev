@@ -4,40 +4,39 @@ services:
   client:
     build:
       context: ./client
-    ports:
-      - 8060:3000
-    restart: unless-stopped
+    container_name: jugendwerkstatt.client
+    networks: [default]
+    ports: [8060:3000]
+    stop_signal: SIGKILL
     volumes:
       - ./client/:/app
+      - /app/node_modules
 
   server:
-    ports:
-      - 8061:80
-    build:
-      context: ./server
-    command: java -jar server.jar
-    container_name: jugendwerkstatt.server.dev
-    extra_hosts: [$HOSTNAME:127.0.0.1]
-    healthcheck: { disable: true }
-    image: wooportal/server-next:dev
-    network_mode: host
+    container_name: jugendwerkstatt.server
+    image: maven:3-openjdk-17-slim
+    command: mvn clean spring-boot:run -DexcludeDevtools=false
+    networks: [default]
+    ports: [8061:8080]
+    stop_signal: SIGKILL
+    working_dir: /src/wooportal.server
+    volumes:
+      - ./server:/src/wooportal.server
+      - ./server/.m2:/root/.m2
     environment:
       - SPRING_PROFILES_ACTIVE=development
       - WOOPORTAL_DB_NAME=jugendwerkstatt
       - WOOPORTAL_DB_PASSWORD=jugendwerkstatt
-      - WOOPORTAL_DB_PORT=8062
+      - WOOPORTAL_DB_PORT=5432
       - WOOPORTAL_DB_USER=jugendwerkstatt
 
   db:
     image: library/postgres:14-alpine
-    ports:
-      - 8062:5432
     restart: unless-stopped
-    container_name: jugendwerkstatt.postgres.db
-    extra_hosts: [$HOSTNAME:127.0.0.1]
-    healthcheck: { disable: true }
-    image: wooportal/server-next:dev
-    network_mode: host
+    container_name: jugendwerkstatt.db
+    networks: [default]
+    ports: [8062:5432]
+    stop_signal: SIGKILL
     volumes:
       - jugendwerkstatt-db:/var/lib/postgresql/data
     environment:
@@ -45,5 +44,5 @@ services:
       - POSTGRES_PASSWORD=jugendwerkstatt
 
 volumes:
-  saleor-db:
-    driver: jugendwerkstatt-db
+  jugendwerkstatt-db:
+    driver: local
