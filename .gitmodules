@@ -1,0 +1,6 @@
+[submodule "server"]
+	path = server
+	url = https://github.com/wooportal/server-next
+[submodule "client"]
+	path = client
+	url = https://github.com/codeschluss/jugendwerkstatt

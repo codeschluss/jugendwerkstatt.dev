@@ -1,0 +1,49 @@
+version: "3"
+
+services:
+  client:
+    build:
+      context: ./client
+    ports:
+      - 8060:3000
+    restart: unless-stopped
+    volumes:
+      - ./client/:/app
+
+  server:
+    ports:
+      - 8061:80
+    build:
+      context: ./server
+    command: java -jar server.jar
+    container_name: jugendwerkstatt.server.dev
+    extra_hosts: [$HOSTNAME:127.0.0.1]
+    healthcheck: { disable: true }
+    image: wooportal/server-next:dev
+    network_mode: host
+    environment:
+      - SPRING_PROFILES_ACTIVE=development
+      - WOOPORTAL_DB_NAME=jugendwerkstatt
+      - WOOPORTAL_DB_PASSWORD=jugendwerkstatt
+      - WOOPORTAL_DB_PORT=8062
+      - WOOPORTAL_DB_USER=jugendwerkstatt
+
+  db:
+    image: library/postgres:14-alpine
+    ports:
+      - 8062:5432
+    restart: unless-stopped
+    container_name: jugendwerkstatt.postgres.db
+    extra_hosts: [$HOSTNAME:127.0.0.1]
+    healthcheck: { disable: true }
+    image: wooportal/server-next:dev
+    network_mode: host
+    volumes:
+      - jugendwerkstatt-db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=jugendwerkstatt
+      - POSTGRES_PASSWORD=jugendwerkstatt
+
+volumes:
+  saleor-db:
+    driver: jugendwerkstatt-db
