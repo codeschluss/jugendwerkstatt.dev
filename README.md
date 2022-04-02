@@ -32,7 +32,14 @@ cd jugendwerkstatt.dev
 docker-compose build
 ```
 
-5. Run the application:
+5. Install client packages:
+
+```
+cd client
+npm install
+```
+
+6. Run the application:
 
 ```
 docker-compose up
