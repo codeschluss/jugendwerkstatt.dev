@@ -25,6 +25,7 @@ services:
       - ./server/.m2:/root/.m2
     environment:
       - SPRING_PROFILES_ACTIVE=development
+      - WOOPORTAL_DB_HOST=db
       - WOOPORTAL_DB_NAME=jugendwerkstatt
       - WOOPORTAL_DB_PASSWORD=jugendwerkstatt
       - WOOPORTAL_DB_PORT=5432
@@ -36,7 +37,6 @@ services:
     container_name: jugendwerkstatt.db
     networks: [default]
     ports: [8062:5432]
-    stop_signal: SIGKILL
     volumes:
       - jugendwerkstatt-db:/var/lib/postgresql/data
     environment:
