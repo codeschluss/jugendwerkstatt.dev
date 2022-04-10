@@ -30,7 +30,10 @@ services:
       - WOOPORTAL_DB_PASSWORD=jugendwerkstatt
       - WOOPORTAL_DB_PORT=5432
       - WOOPORTAL_DB_USER=jugendwerkstatt
-
+      - "8080:8080"
+    depends_on:
+      - openfire
+      
   db:
     image: library/postgres:14-alpine
     restart: unless-stopped
@@ -43,6 +46,32 @@ services:
       - POSTGRES_USER=jugendwerkstatt
       - POSTGRES_PASSWORD=jugendwerkstatt
 
+  openfire-mysql:
+    container_name: openfire-mysql
+    image: mysql/mysql-server:latest
+    ports: [8063:3306]
+    environment:
+      MYSQL_DATABASE: openfire
+      MYSQL_USER: openfireuser
+      MYSQL_PASSWORD: openfirepasswd
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+      
+  openfire:
+    container_name: openfire
+    image: quantumobject/docker-openfire
+    ports:
+      - "9090:9090"
+      - "5222:5222"
+      - "5269:5269"
+      - "5223:5223"
+      - "7443:7443"
+      - "7777:7777"
+      - "7070:7070"
+      - "5229:5229"
+      - "5275:5275"
+    depends_on:
+      - openfire-mysql
+       
 volumes:
   jugendwerkstatt-db:
     driver: local
