@@ -61,6 +61,12 @@ http://localhost:8061/api/gui
 _You have to change the URL near 'History' from http://localhost:8080/graphql to http://localhost:8080/api/graphql
 Otherwise the schema wont be reached_
 
+## Specification and data model
+
+The folder `specs` contains the datamodel and is a [Modelio](https://www.modelio.org/downloads/download-modelio.html) project.
+
+To open the project open Modelio and switch the workspace to `specs`.
+
 ## How to update the subprojects to the newest versions?
 
 This repository contains newest stable versions.
