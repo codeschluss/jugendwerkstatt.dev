@@ -2,9 +2,9 @@ version: "3"
 
 services:
   client:
+    container_name: jugendwerkstatt.client
     build:
       context: ./client
-    container_name: jugendwerkstatt.client
     networks: [default]
     ports: [8060:3000]
     stop_signal: SIGKILL
@@ -30,16 +30,23 @@ services:
       - WOOPORTAL_DB_PASSWORD=jugendwerkstatt
       - WOOPORTAL_DB_PORT=5432
       - WOOPORTAL_DB_USER=jugendwerkstatt
-      - "8080:8080"
+      - WOOPORTAL_HOST=localhost
+      - WOOPORTAL_MAIL_HOST=mail
+      - WOOPORTAL_MAIL_PORT=1025
+      - WOOPORTAL_MAIL_USERNAME=
+      - WOOPORTAL_MAIL_PASSWORD=
+      - WOOPORTAL_PORTAL_NAME=Jugendwerkstatt
+
     depends_on:
       - openfire
       
   db:
-    image: library/postgres:14-alpine
-    restart: unless-stopped
     container_name: jugendwerkstatt.db
+    image: library/postgres:14-alpine
     networks: [default]
     ports: [8062:5432]
+    stop_signal: SIGKILL
+    restart: unless-stopped
     volumes:
       - jugendwerkstatt-db:/var/lib/postgresql/data
     environment:
@@ -47,18 +54,23 @@ services:
       - POSTGRES_PASSWORD=jugendwerkstatt
 
   openfire-mysql:
-    container_name: openfire-mysql
+    container_name: jugendwerkstatt.openfire.db
     image: mysql/mysql-server:latest
+    networks: [default]
     ports: [8063:3306]
+    stop_signal: SIGKILL
+    volumes:
+      - openfire-db:/var/lib/mysql
     environment:
-      MYSQL_DATABASE: openfire
-      MYSQL_USER: openfireuser
-      MYSQL_PASSWORD: openfirepasswd
-      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
-      
+      - MYSQL_DATABASE=openfire
+      - MYSQL_USER=openfireuser
+      - MYSQL_PASSWORD=openfirepasswd
+      - MYSQL_RANDOM_ROOT_PASSWORD=yes
+
   openfire:
-    container_name: openfire
+    container_name: jugendwerkstatt.openfire
     image: quantumobject/docker-openfire
+    networks: [default]
     ports:
       - "9090:9090"
       - "5222:5222"
@@ -71,7 +83,18 @@ services:
       - "5275:5275"
     depends_on:
       - openfire-mysql
+
+  mail:
+    container_name: jugendwerkstatt.mail
+    image: maildev/maildev
+    networks: [default]
+    ports:
+      - "1080:1080"
+      - "1025:1025"
+    stop_signal: SIGKILL
        
 volumes:
   jugendwerkstatt-db:
+    driver: local
+  openfire-db:
     driver: local
