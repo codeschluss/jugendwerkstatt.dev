@@ -45,6 +45,12 @@ npm install
 docker-compose up
 ```
 
+In case client does not work properly (like in windows) run the whole stack without client and start your client locally:
+
+```
+docker-compose up --scale client=0
+```
+
 ## Tools and URLs
 
 After building and running the application following URLs are exposed:
@@ -52,6 +58,7 @@ After building and running the application following URLs are exposed:
 - Client: http://localhost:8060
 - Server: http://localhost:8061
 - Database: http://localhost:8062
+- Mail: http://localhost:1080
 
 ### GraphQL Playground
 
