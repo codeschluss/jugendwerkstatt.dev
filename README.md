@@ -83,3 +83,9 @@ In order to update all of them to their newest versions, run:
 ```
 git submodule update --remote
 ```
+
+During the development there might be changes in existing changelog files. Therefore the whole database need to be purged. To setup a clean database you have to purge the volume before starting the docker-comppose:
+
+```
+docker-compose down -v
+```
