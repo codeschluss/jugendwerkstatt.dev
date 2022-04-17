@@ -80,6 +80,13 @@ http://localhost:8061/api/gui
 _You have to change the URL near 'History' from http://localhost:8080/graphql to http://localhost:8080/api/graphql
 Otherwise the schema wont be reached_
 
+### Media content
+
+In order to retrieve any media content there are the following endpoints to retrieve them:
+
+- http://localhost:8061/api/media/{id}: {id} should be replaced by the media id. This endpoint retrieves the item without downloading it immediately
+- http://localhost:8061/api/media/download/{id}: {id} should be replaced by the media id. This endpoint retrieves the data and has header set to download it automatically.
+
 ## Specification and data model
 
 The folder `specs` contains the datamodel and is a [Modelio](https://www.modelio.org/downloads/download-modelio.html) project.
