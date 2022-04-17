@@ -24,7 +24,6 @@ services:
       - ./server:/src/wooportal.server
       - ./server/.m2:/root/.m2
       - ./server/.storage:/var/lib/wooportal/storage
-    env_file: [.env]
     environment:
       - SPRING_PROFILES_ACTIVE=development
       - WOOPORTAL_DB_HOST=db
@@ -38,7 +37,7 @@ services:
       - WOOPORTAL_MAIL_USERNAME=
       - WOOPORTAL_MAIL_PASSWORD=
       - WOOPORTAL_PORTAL_NAME=Jugendwerkstatt
-      - WOOPORTAL_STORAGE_LOCATION=/var/lib/wooportal/storage 
+      - WOOPORTAL_STORAGE_LOCATION=/var/lib/wooportal/storage
     depends_on:
       - openfire
       

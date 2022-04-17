@@ -26,20 +26,32 @@ git clone https://github.com/codeschluss/jugendwerkstatt.dev --recursive
 cd jugendwerkstatt.dev
 ```
 
-4. Build the application:
+4. Copy the `.env` file from the example :
 
 ```
-docker-compose build
+cp .env.example .env
 ```
 
-5. Install client packages:
+5. Ask WOOPORTAL_LOCATION_KEY or create your own Bing Maps Key (see [Bing Maps Integration](https://www.bingmapsportal.com/))
+
+6. Copy media files to server storage
+
+```
+mkdir server/.storage
+```
+
+```
+cp -a media/. server/.storage
+```
+
+7. Install client packages:
 
 ```
 cd client
 npm install
 ```
 
-6. Run the application:
+8. Run the application:
 
 ```
 docker-compose up
