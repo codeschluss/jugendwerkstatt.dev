@@ -90,8 +90,8 @@ services:
     image: maildev/maildev
     networks: [default]
     ports:
-      - "1080:1080"
-      - "1025:1025"
+      - "8064:1080"
+      - "8065:1025"
     stop_signal: SIGKILL
        
 volumes:

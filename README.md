@@ -70,15 +70,12 @@ After building and running the application following URLs are exposed:
 - Client: http://localhost:8060
 - Server: http://localhost:8061
 - Database: http://localhost:8062
-- Mail: http://localhost:1080
+- Mail: http://localhost:8064
 
 ### GraphQL Playground
 
 For testing the API you can reach the playground here:
-http://localhost:8061/api/gui
-
-_You have to change the URL near 'History' from http://localhost:8080/graphql to http://localhost:8080/api/graphql
-Otherwise the schema wont be reached_
+http://localhost:8061/gui
 
 ### Media content
 
