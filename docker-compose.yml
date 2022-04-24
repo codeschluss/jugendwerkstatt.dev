@@ -38,6 +38,9 @@ services:
       - WOOPORTAL_MAIL_PASSWORD=
       - WOOPORTAL_PORTAL_NAME=Jugendwerkstatt
       - WOOPORTAL_STORAGE_LOCATION=/var/lib/wooportal/storage
+      - WOOPORTAL_XMPP_DOMAIN=openfire
+      - WOOPORTAL_XMPP_HOST=openfire
+      - WOOPORTAL_XMPP_PORT=5222
     depends_on:
       - openfire
       
@@ -70,7 +73,7 @@ services:
 
   openfire:
     container_name: jugendwerkstatt.openfire
-    image: quantumobject/docker-openfire
+    image: wolviex/openfire
     networks: [default]
     ports:
       - "9090:9090"
