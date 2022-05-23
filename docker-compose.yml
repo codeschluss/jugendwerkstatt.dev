@@ -5,6 +5,7 @@ services:
     container_name: jugendwerkstatt.client
     build:
       context: ./client
+      dockerfile: Dockerfile_dev
     networks: [default]
     ports: [8060:3000]
     stop_signal: SIGKILL
@@ -26,16 +27,18 @@ services:
       - ./server/.storage:/var/lib/wooportal/storage
     environment:
       - SPRING_PROFILES_ACTIVE=development
-      - WOOPORTAL_DB_HOST=db
+      - WOOPORTAL_DB_HOST=server-db
       - WOOPORTAL_DB_NAME=jugendwerkstatt
-      - WOOPORTAL_DB_PASSWORD=jugendwerkstatt
+      - WOOPORTAL_DB_PASS=jugendwerkstatt
       - WOOPORTAL_DB_PORT=5432
       - WOOPORTAL_DB_USER=jugendwerkstatt
       - WOOPORTAL_HOST=localhost:3000
+      - WOOPORTAL_MAIL_FROM=info@codeschluss.de
+      - WOOPORTAL_MAIL_RCPT=error@codeschluss.de
       - WOOPORTAL_MAIL_HOST=mail
       - WOOPORTAL_MAIL_PORT=1025
       - WOOPORTAL_MAIL_USERNAME=
-      - WOOPORTAL_MAIL_PASSWORD=
+      - WOOPORTAL_MAIL_PASS=
       - WOOPORTAL_PORTAL_NAME=Jugendwerkstatt
       - WOOPORTAL_STORAGE_LOCATION=/var/lib/wooportal/storage
       - WOOPORTAL_XMPP_DOMAIN=openfire
@@ -44,7 +47,7 @@ services:
     depends_on:
       - openfire
       
-  db:
+  server-db:
     container_name: jugendwerkstatt.db
     image: library/postgres:14-alpine
     networks: [default]
@@ -59,21 +62,19 @@ services:
 
   openfire-mysql:
     container_name: jugendwerkstatt.openfire.db
-    image: mysql/mysql-server:latest
+    image: mysql/mysql-server:8.0
     networks: [default]
     ports: [8063:3306]
     stop_signal: SIGKILL
     volumes:
       - openfire-db:/var/lib/mysql
     environment:
+      - MYSQL_ROOT_PASSWORD=openfire
       - MYSQL_DATABASE=openfire
-      - MYSQL_USER=openfireuser
-      - MYSQL_PASSWORD=openfirepasswd
-      - MYSQL_RANDOM_ROOT_PASSWORD=yes
 
   openfire:
     container_name: jugendwerkstatt.openfire
-    image: wolviex/openfire
+    image: wolviex/openfire:4.7.1
     networks: [default]
     ports:
       - "9090:9090"
