@@ -37,7 +37,7 @@ services:
       - WOOPORTAL_MAIL_RCPT=error@codeschluss.de
       - WOOPORTAL_MAIL_HOST=mail
       - WOOPORTAL_MAIL_PORT=1025
-      - WOOPORTAL_MAIL_USERNAME=
+      - WOOPORTAL_MAIL_USER=
       - WOOPORTAL_MAIL_PASS=
       - WOOPORTAL_PORTAL_NAME=Jugendwerkstatt
       - WOOPORTAL_STORAGE_LOCATION=/var/lib/wooportal/storage
