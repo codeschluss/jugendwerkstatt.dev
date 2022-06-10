@@ -41,11 +41,6 @@ services:
       - WOOPORTAL_MAIL_PASS=
       - WOOPORTAL_PORTAL_NAME=Jugendwerkstatt
       - WOOPORTAL_STORAGE_LOCATION=/var/lib/wooportal/storage
-      - WOOPORTAL_XMPP_DOMAIN=openfire
-      - WOOPORTAL_XMPP_HOST=openfire
-      - WOOPORTAL_XMPP_PORT=5222
-    depends_on:
-      - openfire
       
   server-db:
     container_name: jugendwerkstatt.db
@@ -59,35 +54,6 @@ services:
     environment:
       - POSTGRES_USER=jugendwerkstatt
       - POSTGRES_PASSWORD=jugendwerkstatt
-
-  openfire-mysql:
-    container_name: jugendwerkstatt.openfire.db
-    image: mysql/mysql-server:8.0
-    networks: [default]
-    ports: [8063:3306]
-    stop_signal: SIGKILL
-    volumes:
-      - openfire-db:/var/lib/mysql
-    environment:
-      - MYSQL_ROOT_PASSWORD=openfire
-      - MYSQL_DATABASE=openfire
-
-  openfire:
-    container_name: jugendwerkstatt.openfire
-    image: wolviex/openfire:4.7.1
-    networks: [default]
-    ports:
-      - "9090:9090"
-      - "5222:5222"
-      - "5269:5269"
-      - "5223:5223"
-      - "7443:7443"
-      - "7777:7777"
-      - "7070:7070"
-      - "5229:5229"
-      - "5275:5275"
-    depends_on:
-      - openfire-mysql
 
   mail:
     container_name: jugendwerkstatt.mail
