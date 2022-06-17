@@ -67,5 +67,3 @@ services:
 volumes:
   jugendwerkstatt-db:
     driver: local
-  openfire-db:
-    driver: local
