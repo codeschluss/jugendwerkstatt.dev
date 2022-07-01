@@ -40,6 +40,7 @@ services:
       - WOOPORTAL_MAIL_USER=
       - WOOPORTAL_MAIL_PASS=
       - WOOPORTAL_PORTAL_NAME=Jugendwerkstatt
+      - WOOPORTAL_PUSH_SECRET=credentials/firebase-credentials.json
       - WOOPORTAL_STORAGE_LOCATION=/var/lib/wooportal/storage
       
   server-db:
